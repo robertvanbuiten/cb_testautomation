@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="_Address" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://alm11.europe.intranet/qcbin/start_a.jsp</Value>
+      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries</Value>
     </Setting>
     <Setting Name="_Domain" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">NL_BANKING</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="_Database" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
@@ -18,13 +18,13 @@
       <Value Profile="(Default)">Dianne84</Value>
     </Setting>
     <Setting Name="_Repository" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ALM</Value>
+      <Value Profile="(Default)">NETWORK</Value>
     </Setting>
     <Setting Name="_Port" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="_Project" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">SAVINGS_and_LOANS</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="_ConfigFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">config.xml</Value>

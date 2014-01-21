@@ -25,7 +25,7 @@ namespace CoreBank {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://alm11.europe.intranet/qcbin/start_a.jsp")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Docs\\Versiebeheer\\cb_libraries")]
         public string _Address {
             get {
                 return ((string)(this["_Address"]));
@@ -34,7 +34,7 @@ namespace CoreBank {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("NL_BANKING")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string _Domain {
             get {
                 return ((string)(this["_Domain"]));
@@ -70,7 +70,7 @@ namespace CoreBank {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ALM")]
+        [global::System.Configuration.DefaultSettingValueAttribute("NETWORK")]
         public string _Repository {
             get {
                 return ((string)(this["_Repository"]));
@@ -88,7 +88,7 @@ namespace CoreBank {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SAVINGS_and_LOANS")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string _Project {
             get {
                 return ((string)(this["_Project"]));

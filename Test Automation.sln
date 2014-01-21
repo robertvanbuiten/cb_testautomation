@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicBlocks", "BasicBlocks\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test Automation Client", "Test Automation Client\Test Automation Client.csproj", "{0EC14DD7-B75A-4D15-948C-D72FE9A4B77C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test Client UnitTests", "Test Client UnitTests\Test Client UnitTests.csproj", "{5E272CE8-7078-4047-9254-DB7374EED1BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0EC14DD7-B75A-4D15-948C-D72FE9A4B77C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EC14DD7-B75A-4D15-948C-D72FE9A4B77C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EC14DD7-B75A-4D15-948C-D72FE9A4B77C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E272CE8-7078-4047-9254-DB7374EED1BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E272CE8-7078-4047-9254-DB7374EED1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E272CE8-7078-4047-9254-DB7374EED1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E272CE8-7078-4047-9254-DB7374EED1BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ namespace CoreBank
     public class Paths
     {
                 // Paths 
-        public string ConfigFile = "config.xml";
+        public string ConfigFile;
         public string ProjectPath;
         public string TestCasePath;
         public string ResourcePath;

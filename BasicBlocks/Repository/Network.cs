@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace CoreBank
 {
@@ -15,6 +16,14 @@ namespace CoreBank
         public override bool Connect()
         {
             bool blnResult = false;
+            string configpath = "";
+
+            configpath = Path.Combine(Settings.Address, Settings.ConfigFile);
+
+            if (File.Exists(configpath))
+            {
+                File.Copy(configpath, Framework.Paths.ConfigPath);
+            }
 
             return blnResult;
         }

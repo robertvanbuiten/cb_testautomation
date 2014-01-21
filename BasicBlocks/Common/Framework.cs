@@ -102,15 +102,22 @@ namespace CoreBank
 
         public static void Start()
         {
-            bool blnResult = false;
-            bool blnResource = false;
-
-            if (blnResource)
+            bool blnConnected = false;
+            
+            if (Framework.Connection.Repository == "ALM")
             {
-                blnResult = ReadConfig();
+                blnConnected = Framework._qc.Connect();
+
+            }
+            else if (Framework.Connection.Repository == "NETWORK")
+            {
+                blnConnected = Framework._nw.Connect();
             }
 
-            Framework.Ready = blnResult;
+            if (blnConnected)
+            {
+                Framework.Ready = ReadConfig();
+            }
         }
 
         public static void Stop()
@@ -204,7 +211,6 @@ namespace CoreBank
 
             return blnResult;
         }
-
 
         ///=================================================================================================================
         /// Config files

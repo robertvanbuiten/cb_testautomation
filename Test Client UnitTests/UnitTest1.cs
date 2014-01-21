@@ -4,11 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CoreBank
 {
     [TestClass]
-    public class UnitTest1
+    public class ConfigNetworkTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Connect()
         {
+            Framework.Factory();
+            Framework.Start();
 
         }
     }

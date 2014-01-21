@@ -16,6 +16,7 @@ namespace CoreBank
         public string Project;
         public string Domain;
         public string Repository;
+        public string ConfigFile;
         
         public ConnectionSettings()
         {
