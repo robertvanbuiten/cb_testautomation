@@ -72,17 +72,18 @@ namespace CoreBank
 
         public static void Init(ConnectionSettings conn, Paths paths)
         {
-            // Set new QC object
-            bool blnResult = true;
-
             Framework.Config = new Config();
             Framework.Log = new Log();
 
-            Framework.Connection = conn;
-            Framework.Paths = paths;
+            try
+            {
+                Framework.Connection = conn;
+                Framework.Paths = paths;
+            }
+            catch { }
 
-            Framework.Ready = blnResult;
-        }
+            Framework.Ready = Framework.InitSettings();
+       }
 
         public static bool InitSettings()
         {

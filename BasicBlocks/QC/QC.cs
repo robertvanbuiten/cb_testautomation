@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OTAClientLib;
+using TDAPIOLELib;
 
 namespace CoreBank
 {
@@ -173,8 +173,20 @@ namespace CoreBank
         /// Upload a file to an existing resource.
         /// </summary>
         /// <returns></returns>
+        /// 
+        public override bool GetProcess(string source, string name)
+        {
+            bool blnResult = false;
 
-        public bool SaveResource(string filename, string resourcename)
+            if (SaveResource(source, name))
+            {
+                blnResult = true;
+            }
+
+            return blnResult;
+        }
+
+        private bool SaveResource(string filename, string resourcename)
         {
             bool blnResult = true;
             

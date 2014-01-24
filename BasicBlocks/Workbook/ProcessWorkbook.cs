@@ -155,13 +155,13 @@ namespace CoreBank
             try
             {
                 this.Base.Save();
-                if (File.Exists(destination))
-                {
-                    File.Delete(destination);
-                }
+                //if (File.Exists(destination))
+                //{
+                //    File.Delete(destination);
+                //}
 
                 //File.Copy(Framework.CurrentWorkbook.FullName, destination);
-                this.Base.SaveAs(destination, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, true, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlLocalSessionChanges, Type.Missing, Type.Missing);
+                this.Base.SaveAs(destination, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, true, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlUserResolution, Type.Missing, Type.Missing);
                 //System.IO.File.Copy(Framework.CurrentWorkbook, destination,true);
             }
             catch (System.IO.IOException ex)

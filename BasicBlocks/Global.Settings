@@ -3,22 +3,22 @@
   <Profiles />
   <Settings>
     <Setting Name="_Address" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries</Value>
+      <Value Profile="(Default)">https://alm11.europe.intranet/qcbin</Value>
     </Setting>
     <Setting Name="_Domain" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">NL_BANKING</Value>
     </Setting>
     <Setting Name="_Database" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">test</Value>
+      <Value Profile="(Default)">Corebank_Testautomation</Value>
     </Setting>
     <Setting Name="_User" Type="System.String" Scope="Application">
       <Value Profile="(Default)">su69ct</Value>
     </Setting>
     <Setting Name="_Password" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Dianne84</Value>
+      <Value Profile="(Default)">Dianne85</Value>
     </Setting>
     <Setting Name="_Repository" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">NETWORK</Value>
+      <Value Profile="(Default)">ALM</Value>
     </Setting>
     <Setting Name="_Port" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
@@ -33,13 +33,13 @@
       <Value Profile="(Default)">to determine at runtime</Value>
     </Setting>
     <Setting Name="_ProcessPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries\processes</Value>
+      <Value Profile="(Default)">Subject\FEBO2</Value>
     </Setting>
     <Setting Name="_TestCasePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries\testcases</Value>
+      <Value Profile="(Default)">Subject\FEBO2</Value>
     </Setting>
     <Setting Name="_ResourcePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries</Value>
+      <Value Profile="(Default)">Resources\FEBO Framework\2.0</Value>
     </Setting>
     <Setting Name="_ProjectPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
