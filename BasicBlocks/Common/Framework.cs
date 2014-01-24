@@ -53,7 +53,7 @@ namespace CoreBank
 
         private Framework()
         {
-            Framework.Init();
+
         }
 
         public static Framework Factory()
@@ -70,11 +70,23 @@ namespace CoreBank
         /// 
         /// </summary>
 
-        private static void Init()
+        public static void Init(ConnectionSettings conn, Paths paths)
         {
             // Set new QC object
-            Framework.Connection = new ConnectionSettings();
-            Framework.Paths = new Paths();
+            bool blnResult = true;
+
+            Framework.Config = new Config();
+            Framework.Log = new Log();
+
+            Framework.Connection = conn;
+            Framework.Paths = paths;
+
+            Framework.Ready = blnResult;
+        }
+
+        public static bool InitSettings()
+        {
+            bool blnResult = true;
 
             if (Framework.Connection.Repository == "ALM")
             {
@@ -87,11 +99,12 @@ namespace CoreBank
                 Framework._nw = new Network(Framework.Connection);
                 Framework._type = REPOSITORY_TYPE.NETWORK;
             }
+            else
+            {
+                blnResult = false;
+            }
 
-            Framework.Config = new Config();
-            Framework.Log = new Log();
-
-            Framework.Ready = false;
+            return blnResult;
         }
 
         /// <summary>
@@ -100,29 +113,30 @@ namespace CoreBank
         /// Read config in memory
         /// </summary>
 
-        public static void Start()
+        public static bool Start()
         {
-            bool blnConnected = false;
+            bool blnConnected = true;
             
-            if (Framework.Connection.Repository == "ALM")
+            if (Framework._type == REPOSITORY_TYPE.ALM)
             {
                 blnConnected = Framework._qc.Connect();
 
             }
-            else if (Framework.Connection.Repository == "NETWORK")
+            else if (Framework._type == REPOSITORY_TYPE.NETWORK)
             {
                 blnConnected = Framework._nw.Connect();
             }
-
-            if (blnConnected)
+            else
             {
-                Framework.Ready = ReadConfig();
+                blnConnected = false;
             }
+
+            return blnConnected;
         }
 
         public static void Stop()
         {
-            Framework.Init();
+           //Framework.Init();
         }
 
         /// <summary>
@@ -185,6 +199,7 @@ namespace CoreBank
             // 1. Prepare process
             // 2. Put process
             // 3. optional (clean process)
+
             if (PrepareProcess())
             {
                 if (PutProcess())
@@ -221,17 +236,17 @@ namespace CoreBank
         /// </summary>
         /// <returns></returns>
 
-        protected internal static bool GetConfig()
+        public static bool GetConfig()
         {
             bool blnResult = false;
 
             if (Framework._type == REPOSITORY_TYPE.ALM)
             {
-                blnResult = Framework._qc.GetResource(Framework.Paths.ConfigPath, "Config");
+                blnResult = Framework._qc.GetResource(Framework.Paths.ResourcePath, Framework.Connection.ConfigFile);
             }
             else if (Framework._type == REPOSITORY_TYPE.NETWORK)
             {
-                blnResult = Framework._nw.GetResource(Framework.Paths.ConfigPath, "Config");
+                blnResult = Framework._nw.GetResource(Framework.Paths.ResourcePath, Framework.Connection.ConfigFile);
             }
             else
             {

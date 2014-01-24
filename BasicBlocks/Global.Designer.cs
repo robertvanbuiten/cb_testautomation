@@ -13,7 +13,7 @@ namespace CoreBank {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    internal sealed partial class Global : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Global : global::System.Configuration.ApplicationSettingsBase {
         
         private static Global defaultInstance = ((Global)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Global())));
         
@@ -43,7 +43,7 @@ namespace CoreBank {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("test")]
         public string _Database {
             get {
                 return ((string)(this["_Database"]));
@@ -88,7 +88,7 @@ namespace CoreBank {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("test")]
         public string _Project {
             get {
                 return ((string)(this["_Project"]));
@@ -97,19 +97,7 @@ namespace CoreBank {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("config.xml")]
-        public string _ConfigFile {
-            get {
-                return ((string)(this["_ConfigFile"]));
-            }
-            set {
-                this["_ConfigFile"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("to determine at runtime")]
         public string _TempPath {
             get {
                 return ((string)(this["_TempPath"]));
@@ -121,7 +109,7 @@ namespace CoreBank {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("to determine at runtime")]
         public string _ConfigPath {
             get {
                 return ((string)(this["_ConfigPath"]));
@@ -133,7 +121,7 @@ namespace CoreBank {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Docs\\Versiebeheer\\cb_libraries\\processes")]
         public string _ProcessPath {
             get {
                 return ((string)(this["_ProcessPath"]));
@@ -145,7 +133,7 @@ namespace CoreBank {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Docs\\Versiebeheer\\cb_libraries\\testcases")]
         public string _TestCasePath {
             get {
                 return ((string)(this["_TestCasePath"]));
@@ -157,7 +145,7 @@ namespace CoreBank {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Docs\\Versiebeheer\\cb_libraries")]
         public string _ResourcePath {
             get {
                 return ((string)(this["_ResourcePath"]));
@@ -176,6 +164,15 @@ namespace CoreBank {
             }
             set {
                 this["_ProjectPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("config.xml")]
+        public string _ConfigFile {
+            get {
+                return ((string)(this["_ConfigFile"]));
             }
         }
     }

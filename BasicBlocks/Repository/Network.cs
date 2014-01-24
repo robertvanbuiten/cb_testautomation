@@ -16,13 +16,10 @@ namespace CoreBank
         public override bool Connect()
         {
             bool blnResult = false;
-            string configpath = "";
 
-            configpath = Path.Combine(Settings.Address, Settings.ConfigFile);
-
-            if (File.Exists(configpath))
+            if (Directory.Exists(Framework.Paths.ResourcePath))
             {
-                File.Copy(configpath, Framework.Paths.ConfigPath);
+                blnResult = true;
             }
 
             return blnResult;
@@ -31,6 +28,24 @@ namespace CoreBank
         public override bool GetResource(string source, string name)
         {
             bool blnResult = false;
+
+            string resource = "";
+            string destination = "";
+
+            resource = Path.Combine(source, name);
+            destination = Path.Combine(Framework.Paths.TempPath,name);
+            
+            if (File.Exists(resource))
+            {
+                File.Delete(destination);
+                File.Copy(resource, destination);
+
+                if (File.Exists(destination))
+                {
+                    blnResult = true;
+                }
+                
+            }
 
             return blnResult;
         }

@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BasicBlocks" GeneratedClassName="Global">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CoreBank" GeneratedClassName="Global">
   <Profiles />
   <Settings>
     <Setting Name="_Address" Type="System.String" Scope="Application">
@@ -9,7 +9,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="_Database" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">test</Value>
     </Setting>
     <Setting Name="_User" Type="System.String" Scope="Application">
       <Value Profile="(Default)">su69ct</Value>
@@ -24,28 +24,28 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="_Project" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="_ConfigFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">config.xml</Value>
+      <Value Profile="(Default)">test</Value>
     </Setting>
     <Setting Name="_TempPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">to determine at runtime</Value>
     </Setting>
     <Setting Name="_ConfigPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">to determine at runtime</Value>
     </Setting>
     <Setting Name="_ProcessPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries\processes</Value>
     </Setting>
     <Setting Name="_TestCasePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries\testcases</Value>
     </Setting>
     <Setting Name="_ResourcePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Docs\Versiebeheer\cb_libraries</Value>
     </Setting>
     <Setting Name="_ProjectPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="_ConfigFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">config.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -12,17 +12,12 @@ namespace CoreBank
         public string ConfigFile;
         public string ProjectPath;
         public string TestCasePath;
-        public string ResourcePath;
+        public string ResourcePath;             
         public string TempPath;                 // Temporary user path
         public string ConfigPath;               // Configuration path
         public string ProcessPath;              // Process path
         
         public Paths()
-        {
-            Init();
-        }
-
-        public void Init()
         {
             ConfigFile = Global.Default._ConfigFile;
             ProcessPath = Global.Default._ProcessPath;
@@ -35,5 +30,6 @@ namespace CoreBank
             ConfigPath = Path.Combine(TempPath, ConfigFile);
             
         }
+
     }
 }
