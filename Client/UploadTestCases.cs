@@ -134,7 +134,7 @@ namespace CoreBank.Client
             {
                 if (Framework.UploadTemplate())
                 {
-                    statusform.Message = "Finished uploading.";
+                    statusform.Message = "Finished uploading " + Framework.Process.TestCases.Count.ToString() + "";
                 }
                 else
                 {

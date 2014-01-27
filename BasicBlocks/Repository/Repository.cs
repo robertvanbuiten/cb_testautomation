@@ -27,28 +27,28 @@ namespace CoreBank
             return blnResult;
         }
 
-        public virtual bool GetResource(string source, string name)
+        public virtual bool GetConfig()
         {
             bool blnResult = false;
             
             return blnResult;
         }
 
-        public virtual bool SaveResource(string source, string destination)
+        public virtual bool SaveConfig()
         {
             bool blnResult = false;
 
             return blnResult;
         }
 
-        public virtual bool GetProcess(string source, string name)
+        public virtual bool GetProcess()
         {
             bool blnResult = false;
-
+            
             return blnResult;
         }
 
-        public virtual bool SaveProcess(string source, string destination)
+        public virtual bool SaveProcess()
         {
             bool blnResult = false;
 

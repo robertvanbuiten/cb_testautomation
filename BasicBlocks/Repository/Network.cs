@@ -25,27 +25,27 @@ namespace CoreBank
             return blnResult;
         }
 
-        public override bool GetResource(string source, string name)
+        public override bool GetProcess()
         {
             bool blnResult = false;
 
             string resource = "";
             string destination = "";
 
-            resource = Path.Combine(source, name);
-            destination = Path.Combine(Framework.Paths.TempPath,name);
+            //resource = Path.Combine(Fra, name);
+            //destination = Path.Combine(Framework.Paths.TempPath,name);
             
-            if (File.Exists(resource))
-            {
-                File.Delete(destination);
-                File.Copy(resource, destination);
+            //if (File.Exists(resource))
+            //{
+            //    File.Delete(destination);
+            //    File.Copy(resource, destination);
 
-                if (File.Exists(destination))
-                {
-                    blnResult = true;
-                }
+            //    if (File.Exists(destination))
+            //    {
+            //        blnResult = true;
+            //    }
                 
-            }
+            //}
 
             return blnResult;
         }

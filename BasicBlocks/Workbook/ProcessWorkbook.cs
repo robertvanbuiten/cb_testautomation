@@ -25,7 +25,119 @@ namespace CoreBank
             this.FullPath = wb.FullName;
         }
 
-        public bool Check()
+        protected virtual void Reset()
+        {
+
+
+        }
+          
+
+        public virtual bool Check()
+        {
+            bool blnResult = false;
+
+
+            return blnResult;
+        }
+
+        public virtual bool Read()
+        {
+            bool blnResult = false;
+
+          
+            return blnResult;
+        }
+
+        public bool CloseWorkbook()
+        {
+            bool blnResult = true;
+
+            try
+            {
+                this.Base.Close();
+            }
+            catch (Exception ex)
+            {
+                blnResult = false;
+            }
+
+            return blnResult;
+        }
+
+        /// <summary>
+        /// Process to temp
+        /// </summary>
+        /// <returns></returns>
+
+
+        public bool CopyToTemp()
+        {
+            bool blnResult = true;
+
+            string destination = System.IO.Path.Combine(Framework.Paths.TempPath, Framework.Process.Name);
+
+            try
+            {
+                this.Base.Save();
+
+                if (File.Exists(destination))
+                {
+                    try
+                    {
+                        File.Delete(destination);
+                    }
+                    catch (Exception ex) { }
+                }
+
+                //File.Copy(Framework.CurrentWorkbook.FullName, destination);
+                this.Base.SaveAs(destination, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, true, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlUserResolution, Type.Missing, Type.Missing);
+                //System.IO.File.Copy(Framework.CurrentWorkbook, destination,true);
+            }
+            catch (System.IO.IOException ex)
+            {
+                blnResult = false;
+            }
+            return blnResult;
+        }
+
+    }
+
+    public class ProcessWorkbook : CoreBankWorkbook
+    {       
+        private GUI _activegui;
+        
+        // Excel 
+        public ShtGeneral shtGeneral;
+        public ShtFlows shtFlows;
+        public ShtTestcases shtTestcases;
+ 
+        // Excel values
+        public List<ExcelTest> TestCases;
+        public List<ExcelFlow> BasicFlows;
+
+        public ProcessWorkbook(Excel.Workbook wb, Excel.Worksheet flows, Excel.Worksheet tc): base(wb)
+        {
+            this.Reset();
+            this.shtTestcases = new ShtTestcases(tc);
+            this.shtFlows = new ShtFlows(tc);
+            this.Init();
+        }
+
+        protected override void Reset()
+        {
+            this.shtGeneral = null;
+            this.shtFlows = null;
+            this.shtTestcases = null;
+            this.TestCases = new List<ExcelTest>();
+        }
+
+        public void Init()
+        {
+            this.shtTestcases.ReadValues();
+            this.shtFlows.ReadValues();
+        }
+
+        public override bool Check()
         {
             bool blnResult = false;
 
@@ -94,134 +206,14 @@ namespace CoreBank
             }
 
             return blnResult;
-        }    
-
-        protected virtual void Reset()
-        {
-
-
-        }
-
-        protected virtual bool Compile()
-        {
-            bool blnResult = false;
-
-
-            return blnResult;
-        }
-
-
-        protected bool Read()
-        {
-            bool blnResult = false;
-
-            if (File.Exists(this.FullPath))
-            {
-                
-            }
-
-
-            return blnResult;
-        }
-
-        public bool CloseWorkbook()
-        {
-            bool blnResult = true;
-
-            try
-            {
-                this.Base.Close();
-            }
-            catch (Exception ex)
-            {
-                blnResult = false;
-            }
-
-            return blnResult;
-        }
-
-        /// <summary>
-        /// Process to temp
-        /// </summary>
-        /// <returns></returns>
-
-
-        public bool CopyToTemp()
-        {
-            bool blnResult = true;
-
-            string destination = System.IO.Path.Combine(Framework.Paths.TempPath, Framework.Process.Name);
-
-            try
-            {
-                this.Base.Save();
-                //if (File.Exists(destination))
-                //{
-                //    File.Delete(destination);
-                //}
-
-                //File.Copy(Framework.CurrentWorkbook.FullName, destination);
-                this.Base.SaveAs(destination, Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, true, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Microsoft.Office.Interop.Excel.XlSaveConflictResolution.xlUserResolution, Type.Missing, Type.Missing);
-                //System.IO.File.Copy(Framework.CurrentWorkbook, destination,true);
-            }
-            catch (System.IO.IOException ex)
-            {
-                blnResult = false;
-            }
-            return blnResult;
-        }
-
-    }
-
-    /// <summary>
-    /// CoreBankWorkbook ends here
-    /// </summary>
-
-    ///
-    ///
-    ///
-
-    public class ProcessWorkbook : CoreBankWorkbook
-    {       
-        private GUI _activegui;
-        
-        // Excel 
-        public ShtGeneral shtGeneral;
-        public ShtFlows shtFlows;
-        public ShtTestcases shtTestcases;
- 
-        // Excel values
-        public List<ExcelTest> TestCases;
-        public List<ExcelFlow> BasicFlows;
-
-        public ProcessWorkbook(Excel.Workbook wb, Excel.Worksheet flows, Excel.Worksheet tc): base(wb)
-        {
-            this.Reset();
-            this.shtTestcases = new ShtTestcases(tc);
-            this.shtFlows = new ShtFlows(tc);
-            this.Init();
-        }
-
-        protected override void Reset()
-        {
-            this.shtGeneral = null;
-            this.shtFlows = null;
-            this.shtTestcases = null;
-            this.TestCases = new List<ExcelTest>();
-        }
-
-        public void Init()
-        {
-            this.shtTestcases.ReadValues();
-            this.shtFlows.ReadValues();
-        }
+        }  
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
         /// 
-       public bool Read()
+       public override bool Read()
        {
            bool blnResult = false;
            
@@ -248,7 +240,8 @@ namespace CoreBank
 
             for (long row = PROCESS_ROWS.Testcase; row <= shtTestcases.RowMax; row++)
             {
-                if (!string.IsNullOrWhiteSpace(shtTestcases.Values[row,PROCESS_COLUMNS.ID]))
+                
+                if (!string.IsNullOrWhiteSpace(shtTestcases.shtValues[row,PROCESS_COLUMNS.ID].ToString()))
                 {
                     ExcelTest exceltest = new ExcelTest();
 
@@ -320,23 +313,7 @@ namespace CoreBank
 
 
   
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        /// 
-
-        public bool Compile()
-        {
-            bool blnResult = false;
-
-
-
-            return blnResult;
-        }
-      
-
-        //public bool ReadObjects()
+       
         //{
         //    //bool blnResult = true;
         //    //ParentObject parent = null;

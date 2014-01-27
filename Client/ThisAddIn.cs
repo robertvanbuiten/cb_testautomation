@@ -88,8 +88,6 @@ namespace CoreBank.Client
         {
             cb = Application.CommandBars["Cell"];
 
-            RemoveMenu();
-
             menu = (Office.CommandBarPopup)cb.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
             menu.Caption = "Test Automation";
 
@@ -97,10 +95,10 @@ namespace CoreBank.Client
             menu_alm.Caption = "Repository";
 
             btnConnect = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
-            btnConnect.TooltipText = "Connect to " + conn.Repository.ToString();
+            btnConnect.TooltipText = "Connect to " + conn.Repository;
             btnConnect.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnConnect_Click);
 
-            if (Framework.Ready)
+            if (Framework.Connected)
             {
                 btnConnect.Caption = "Disconnect";
 
@@ -118,22 +116,11 @@ namespace CoreBank.Client
                 btnUploadConfig.TooltipText = "Repository Manager";
                 btnUploadConfig.Caption = "Repository Manager";
                 btnUploadConfig.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnConfig_Click);
-
-                //menu_config = (Office.CommandBarPopup)menu.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
-                //menu_config.Caption = "Configuration";
-
-                //btnExport = (Office.CommandBarButton)menu_config.Controls.Add(1, missing, missing, missing, missing);
-                //btnExport.TooltipText = "Export Objects to QTP Framework Configuration";
-                //btnExport.Caption = "Upload Objects";
-                //btnExport.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnExport_Click);
-                //btnManage = (Office.CommandBarButton)menu_config.Controls.Add(1, missing, missing, missing, missing);
-                //btnManage.TooltipText = "Manage QTP Framework Configuration";
-                //btnManage.Caption = "Manage configuration";
-                //btnManage.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnManage_Click);
+            
             }
             else
             {
-                btnConnect.Caption = "Connect";
+                btnConnect.Caption = "Connect to " + conn.Repository;
             }
 
             ///
@@ -179,18 +166,19 @@ namespace CoreBank.Client
 
         void btnConnect_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
-
-            Framework.Init(conn, paths);
+            Framework.Start(conn, paths);
 
             if (Framework.Ready)
             {
-                Framework.Stop();
-            }
-            else
-            {
-                Framework.Start();
+                Framework.Connect();
+                
+                if (Framework.Connected)
+                {
+                    Framework.ReadRepository();
+                }
             }
 
+            RemoveMenu();
             AddMenu();
         }
 
