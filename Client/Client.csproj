@@ -180,6 +180,10 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Banks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Banks.Designer.cs" />
     <Compile Include="Excel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -190,6 +194,7 @@
     <Compile Include="Status.Designer.cs" />
     <Compile Include="UploadProcess.cs" />
     <Compile Include="UploadTestCases.cs" />
+    <EmbeddedResource Include="Banks.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -225,6 +230,11 @@
       <Project>{2a5fc8c9-9cac-4a07-aec2-21ecfe69141f}</Project>
       <Name>BasicBlocks</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BIC.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

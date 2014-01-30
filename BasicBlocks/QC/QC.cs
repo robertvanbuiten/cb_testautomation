@@ -192,13 +192,13 @@ namespace CoreBank
             bool blnResult = true;
             
             QCResource resource = null;
-            resource = FindResource(resourcename);
+            resource = FindResource(Framework.ActiveProcess.Name);
 
             if (resource != null)
             {
                 try
                 {
-                    resource.FileName = filename;
+                    resource.FileName = Framework.ActiveProcess.File;
                     IResourceStorage res = resource as IResourceStorage;
                     res.UploadResource(Framework.Paths.TempPath, true);
                 }

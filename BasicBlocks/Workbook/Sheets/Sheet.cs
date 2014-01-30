@@ -68,7 +68,7 @@ namespace CoreBank
             {
                 shtValues = this.Base.UsedRange.get_Value(Excel.XlRangeValueDataType.xlRangeValueDefault) as object[,];
                 RowMax = shtValues.GetUpperBound(0);
-                ColMax = shtValues.GetUpperBound(1)+1;
+                ColMax = shtValues.GetUpperBound(1);
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace CoreBank
             ///
             bool blnResult = true;
 
-            Values = new string[RowMax, ColMax];
+            Values = new string[RowMax+1, ColMax+1];
 
             for (long nRow = 1; nRow <= RowMax; nRow++)
             {
@@ -93,7 +93,9 @@ namespace CoreBank
                 {
                     try
                     {
-                        Values[nRow, nCol] = Convert.ToString(shtValues[nRow, nCol]);
+                        string strValue = "";
+                        strValue = Convert.ToString(shtValues[nRow, nCol]);
+                        Values[nRow, nCol] = string.Format("{0}",strValue);
                     }
                     catch (Exception ex)
                     {
@@ -103,8 +105,6 @@ namespace CoreBank
                 }
             }
 
-            RowMax++;
-            ColMax++;
             return blnResult;
         }
 

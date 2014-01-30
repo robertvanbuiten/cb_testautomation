@@ -116,7 +116,7 @@ namespace CoreBank
         public static long ExpectedResult = 5;
         public static long Date = 6;
         public static long Select = 7;
-        public static long Data = 8;
+        public static long Data = 6;
     }
 
     public static class FLOW_COLUMNS

@@ -129,6 +129,7 @@ namespace CoreBank
             this.shtFlows = null;
             this.shtTestcases = null;
             this.TestCases = new List<ExcelTest>();
+            this.BasicFlows = new List<ExcelFlow>();
         }
 
         public void Init()
@@ -236,12 +237,11 @@ namespace CoreBank
 
         private bool ReadTestCases()
         {
-            bool blnResult = false;
+            bool blnResult = true;
 
             for (long row = PROCESS_ROWS.Testcase; row <= shtTestcases.RowMax; row++)
             {
-                
-                if (!string.IsNullOrWhiteSpace(shtTestcases.shtValues[row,PROCESS_COLUMNS.ID].ToString()))
+                if (!string.IsNullOrEmpty(shtTestcases.Values[row,PROCESS_COLUMNS.ID]))
                 {
                     ExcelTest exceltest = new ExcelTest();
 
@@ -251,6 +251,17 @@ namespace CoreBank
                     exceltest.ResourceID = shtTestcases.Values[row, PROCESS_COLUMNS.RepositoryID];
                     exceltest.Flow = DetermineBasicFlow(shtTestcases.Values[row, PROCESS_COLUMNS.Flow]);
 
+                    for (long col = PROCESS_COLUMNS.Data; col <= shtTestcases.ColMax; col++)
+                    {
+                        if (!string.IsNullOrEmpty(shtTestcases.Values[row, col]))
+                        {
+                            ExcelData data = new ExcelData();
+                            data.Name = shtTestcases.Values[PROCESS_ROWS.Header,col];
+                            data.Value = shtTestcases.Values[row,col];
+                            exceltest.Data.Add(data);
+                        }
+                    }
+
                     exceltest.Row = row;
                     this.TestCases.Add(exceltest);
                 }
@@ -259,6 +270,7 @@ namespace CoreBank
             return blnResult;
         }
 
+      
         /// <summary>
         /// 
         /// </summary>
@@ -293,7 +305,7 @@ namespace CoreBank
 
         private bool ReadFlows()
         {
-            bool blnResult = false;
+            bool blnResult = true;
 
             for (long col = PROCESS_COLUMNS.Data; col <= shtFlows.ColMax; col++ )
             {

@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 using CoreBank;
+using CoreBank.IBAN;
 
 namespace CoreBank.Client
 {
@@ -22,8 +23,14 @@ namespace CoreBank.Client
 
         private Office.CommandBarPopup menu_config;
         private Office.CommandBarPopup menu_alm;
+        private Office.CommandBarPopup menu_iban;
 
         // Buttons
+        private Office.CommandBarButton btnIban;
+        private Office.CommandBarButton btnNLBank;
+        private string lblIban = "Convert to ING IBAN";
+        private string lblBanks = "Convert to other NL Bank IBAN";
+
         private Office.CommandBarButton btnConfig;
         private Office.CommandBarButton btnExport;
         private Office.CommandBarButton btnConnect;
@@ -58,7 +65,7 @@ namespace CoreBank.Client
                     {
                         Office.CommandBarPopup popup = ctrl as Office.CommandBarPopup;
 
-                        if (popup.Caption == "Test Automation" || popup.Caption == "Object repository" || popup.Caption == "QTP Framework")
+                        if (popup.Caption == "Test Automation" || popup.Caption == "Object repository" || popup.Caption == "QTP Framework" || popup.Caption == "IBAN")
                         {
                             popup.Delete();
                         }
@@ -93,6 +100,19 @@ namespace CoreBank.Client
 
             menu_alm = (Office.CommandBarPopup)menu.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
             menu_alm.Caption = "Repository";
+
+            menu_iban = (Office.CommandBarPopup)menu.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
+            menu_iban.Caption = "IBAN";
+
+            btnIban = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
+            btnIban.TooltipText = "Convert to ING IBAN";
+            btnIban.Caption = lblIban;
+            btnIban.Click += btnIban_Click;
+
+            btnNLBank = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
+            btnNLBank.TooltipText = "Convert to IBAN other NL Bank";
+            btnNLBank.Caption = lblBanks;
+            btnNLBank.Click += btnNLBank_Click;
 
             btnConnect = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
             btnConnect.TooltipText = "Connect to " + conn.Repository;
@@ -152,6 +172,24 @@ namespace CoreBank.Client
             btnScreen.TooltipText = "Screen";
             btnScreen.Caption = "Screen";
             btnScreen.Click += button_Click;
+        }
+
+        void btnNLBank_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selection = (Excel.Range)Application.Selection;
+            Common.Range = selection;
+
+            frmBanks forms = new frmBanks();
+            forms.Show();
+        }
+
+        void btnIban_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            Excel.Range selection = (Excel.Range)Application.Selection;
+            Common.Range = selection;
+
+            Common.BIC = new BIC("INGBNL2A", "INGB", "ING BANK");
+            Common.ConvertToIBAN();    
         }
 
         void btnExport_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
