@@ -6,9 +6,9 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace CoreBank.IBAN
 {
-    public class Common
+    public class AccountNumber
     {
-        private static Common singleton;
+        private static AccountNumber singleton;
         public static string BankNumber;
         public static string BankCode;
         public static bool Convert;
@@ -17,24 +17,24 @@ namespace CoreBank.IBAN
         public static BIC BIC;
         private static Convert convert;
 
-        private Common()
+        private AccountNumber()
         {
-            Common.convert = new Convert();
+            AccountNumber.convert = new Convert();
         }
 
-        public static Common Factory()
+        public static AccountNumber Factory()
         {
-            if (Common.singleton == null)
+            if (AccountNumber.singleton == null)
             {
-                Common.singleton = new Common();
+                AccountNumber.singleton = new AccountNumber();
             }
 
-            return Common.singleton;
+            return AccountNumber.singleton;
         }
 
         public static void ConvertToIBAN()
         {
-            foreach (Excel.Range cell in Common.Range.Cells)
+            foreach (Excel.Range cell in AccountNumber.Range.Cells)
             {
                 bool blnContinue = true;
                 string strValue = "";

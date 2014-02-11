@@ -15,7 +15,7 @@ namespace CoreBank
         protected SubjectNode ProcessDestFolder;
 
         protected List<Test> TestCases;
-        protected List<Process> ProcessList;
+        protected List ProcessList;
         protected string ProcessFolderName;
         public int ProcessIndex;
         public int ProcessMax;
@@ -39,6 +39,10 @@ namespace CoreBank
            
         }
 
+        /// <summary>
+        /// OVERRIDE FUNCTIONS
+        /// </summary>
+        /// <returns></returns>
 
         public override bool Connect()
         {
@@ -48,7 +52,6 @@ namespace CoreBank
             try
             {
                 td = new TDConnection();
-                td.IgnoreHtmlFormat = true;
                 td.InitConnectionEx(this.Settings.Address);
                 td.ConnectProjectEx(this.Settings.Domain, this.Settings.Database, this.Settings.User, this.Settings.Password);
                 blnResult = td.Connected;
@@ -56,7 +59,69 @@ namespace CoreBank
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Cannot connect to ALM. /n" + ex.Message);
+                Framework.Log.AddError("Cannot connect to QC / ALM", ex.Message, ex.StackTrace);
+            }
+
+            if (blnResult)
+            {
+                Framework.Log.AddCorrect("Connected with HP QC / ALM");
+            }
+            else
+            {
+                Framework.Log.AddIssue("Cannot connect to QC / ALM");
+            }
+
+            return blnResult;
+        }
+
+        /// <summary>
+        /// Upload a file to an existing resource.
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public override bool GetProcess()
+        {
+            bool blnResult = false;
+
+            if (DownloadResource(Framework.ActiveProcess.Name))
+            {
+                blnResult = true;
+            }
+
+            return blnResult;
+        }
+
+        public override bool SaveProcess()
+        {
+            bool blnResult = false;
+
+            if (UploadResource(Framework.Process.Base.FullName, Framework.ActiveProcess.Name))
+            {
+                blnResult = true;
+            }
+
+            return blnResult;
+        }
+
+        public override bool GetConfig()
+        {
+            bool blnResult = false;
+
+            if (DownloadResource("Config"))
+            {
+                blnResult = true;
+            }
+            
+            return blnResult;
+        }
+
+        public override bool SaveTest(ExcelTest source)
+        {
+            bool blnResult = false;
+
+            if (UploadTestCase(source))
+            {
+                blnResult = true;
             }
 
             return blnResult;
@@ -108,34 +173,7 @@ namespace CoreBank
                     System.Windows.Forms.MessageBox.Show("Found multiple test resources with name " + name + " in ALM.");
                 }
             }
-            //else
-            //{
-            //     QCResourceFactory factory = (QCResourceFactory)td.QCResourceFactory;
-            //     list = (List)factory.NewList("");
-
-            //    foreach (QCResource resource in list)
-            //    {
-            //        if (resource is QCResource)
-            //        {
-            //            QCResource _res = resource as QCResource;
-            //            string _resname = _res.Name.ToString().Trim().ToLower();
-
-            //            if (_resname == name)
-            //            {
-            //                res = _res;
-            //                blnFound = true;
-            //                break;
-            //            }
-            //        }
-            //    }
-
-
-            //    if (!blnFound)
-            //    {
-            //        System.Windows.Forms.MessageBox.Show("Could not find Test Resources with name " + name + " in ALM.");
-            //    }
-            //}
-            
+              
             return res;
         }
 
@@ -145,7 +183,7 @@ namespace CoreBank
         /// <param name="name"></param>
         /// <returns></returns>
 
-        public bool GetResource(string name)
+        private bool DownloadResource(string name)
         {
             bool blnResult = true;
             
@@ -162,32 +200,28 @@ namespace CoreBank
                 catch (Exception ex)
                 {
                     blnResult = false;
-                    System.Windows.Forms.MessageBox.Show("Could not download Test Resource " + name + " from ALM to " + Framework.TempPath + " \n" + ex.Message );
+                    System.Windows.Forms.MessageBox.Show("Could not download Test Resource " + name + " from ALM to " + Framework.Paths.TempPath + " \n" + ex.Message );
                 }
             }
                         
             return blnResult;
         }
         
-        /// <summary>
-        /// Upload a file to an existing resource.
-        /// </summary>
-        /// <returns></returns>
-
-        public bool SaveResource(string filename, string resourcename)
+        
+        private bool UploadResource(string filename, string resourcename)
         {
             bool blnResult = true;
             
             QCResource resource = null;
-            resource = FindResource(resourcename);
+            resource = FindResource(Framework.ActiveProcess.Name);
 
             if (resource != null)
             {
                 try
                 {
-                    resource.FileName = filename;
+                    resource.FileName = Framework.ActiveProcess.File;
                     IResourceStorage res = resource as IResourceStorage;
-                    res.UploadResource(Framework.TempPath, true);
+                    res.UploadResource(Framework.Paths.TempPath, true);
                 }
                 catch (Exception ex)
                 {
@@ -245,7 +279,7 @@ namespace CoreBank
         /// <param name="Testcase"></param>
         /// <returns></returns>
 
-        public bool ReadProcess()
+        public bool PrepareUpload()
         {
             bool blnResult = false;
             
@@ -533,7 +567,7 @@ namespace CoreBank
         /// <param name="TestCase"></param>
         /// <returns></returns>
 
-        public bool CopyTestCase(Test TestCase)
+        public bool CopyTestCase(ExcelTest TestCase)
         {
             bool blnResult = false;
             
@@ -564,7 +598,7 @@ namespace CoreBank
         /// <param name="TestCase"></param>
         /// <returns></returns>
 
-        public bool UploadTestCase(TestCase TestCase)
+        public bool UploadTestCase(ExcelTest TestCase)
         {
             bool blnFound = false;
             bool blnResult = false;
@@ -605,28 +639,28 @@ namespace CoreBank
         /// <param name="tc"></param>
         /// <returns></returns>
 
-        //private bool ChangeTestCase(TestCase tc)
-        //{
-        //    bool blnResult = false;
+        private bool ChangeTestCase(ExcelTest tc)
+        {
+            bool blnResult = false;
 
-        //    if (ActiveTest != null)
-        //    {
-        //        try
-        //        {
-        //            ActiveTest.Name = tc.Name;
-        //            ActiveTest["TS_DESCRIPTION"] = tc.Message;
-        //            ActiveTest["TS_STATUS"] = "5 - Ready";
-        //            ActiveTest.Post();
-        //            blnResult = true;
-        //        }
-        //        catch(Exception ex) 
-        //        {
-        //            Message = "Could not change properties of test" + ActiveTest.Name + "\n" + ex.Message;
-        //        }
-        //    }
+            if (ActiveTest != null)
+            {
+                try
+                {
+                    ActiveTest.Name = tc.Name;
+                    ActiveTest["TS_DESCRIPTION"] = tc.Message;
+                    ActiveTest["TS_STATUS"] = "5 - Ready";
+                    ActiveTest.Post();
+                    blnResult = true;
+                }
+                catch (Exception ex)
+                {
+                    Message = "Could not change properties of test" + ActiveTest.Name + "\n" + ex.Message;
+                }
+            }
 
-        //    return blnResult;
-        //}
+            return blnResult;
+        }
 
 
         /// <summary>

@@ -58,6 +58,15 @@ namespace CoreBank
         FILE,
         UNKNOWN
     }
+
+    public enum ADDIN_ACTION
+    {
+        CONNECT,
+        DISCONNECT,
+        PROCESS_UPLOADTEMPLATE,
+        PROCESS_UPLOADTESTCASE,
+        UNKNOWN
+    }
    
     public enum FASE
     {

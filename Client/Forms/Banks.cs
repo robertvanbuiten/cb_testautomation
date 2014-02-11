@@ -53,7 +53,7 @@ namespace CoreBank
             try
             {
                 _assembly = Assembly.GetExecutingAssembly();
-                _textStreamReader = new StreamReader(_assembly.GetManifestResourceStream("IBANConverter.BIC.txt"));
+                _textStreamReader = new StreamReader(_assembly.GetManifestResourceStream("CoreBank.BIC.txt"));
 
                 while (_textStreamReader.Peek() >= 0)
                 {
@@ -80,16 +80,16 @@ namespace CoreBank
         {
             this.Close();
 
-            Common.Convert = true;
-            Common.BIC = (BIC)this.cbBanks.SelectedItem;
-            Common.BankNumber = (string)this.cbBanks.SelectedValue;
-            Common.BankCode = "code";
-            Common.ConvertToIBAN();
+            AccountNumber.Convert = true;
+            AccountNumber.BIC = (BIC)this.cbBanks.SelectedItem;
+            AccountNumber.BankNumber = (string)this.cbBanks.SelectedValue;
+            AccountNumber.BankCode = "code";
+            AccountNumber.ConvertToIBAN();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            Common.Convert = false;
+            AccountNumber.Convert = false;
             this.Close();
         }
 

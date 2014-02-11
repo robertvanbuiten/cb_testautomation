@@ -13,6 +13,7 @@ namespace CoreBank
     {
         public List<LogLine> Lines; 
         public int LineNumber;
+        public bool Correct;
 
         //private static iLog singleton;
 
@@ -25,6 +26,7 @@ namespace CoreBank
         {
             this.Lines = new List<LogLine>();
             this.LineNumber = 1;
+            this.Correct = false;
         }
 
         /// <summary>
@@ -36,37 +38,30 @@ namespace CoreBank
         /// <param name="errorMessage"></param>
         /// <param name="StackTrace"></param>
 
-        public void AddLine(string description, RESULT result, string errorMessage, string StackTrace)
+        public void AddCorrect(string description)
         {
-            LogLine line = new LogLine();
-
-            line.Result = result.ToString();
+            CorrectLine line = new CorrectLine();
             line.Description = description;
-            line.ErrorMessage = errorMessage;
-            line.ErrorStackTrace = StackTrace;
-    
+            
             this.Lines.Add(line);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="result"></param>
-        /// <param name="type"></param>
-
-        public void AddLine(string description,RESULT result)
+        public void AddIssue(string description)
         {
-            LogLine line = new LogLine();
-
-            line.Result = result.ToString();
+            IssueLine line = new IssueLine();
             line.Description = description;
-            line.ErrorMessage = "";
-            line.ErrorStackTrace = "";
 
             this.Lines.Add(line);
         }
 
-      
+        public void AddError(string description, string error, string stack)
+        {
+            ErrorLine line = new ErrorLine();
+            line.Description = description;
+            line.ErrorMessage = error;
+            line.ErrorStackTrace = stack;
+
+            Lines.Add(line);
+        }
     }
 }

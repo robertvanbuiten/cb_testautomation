@@ -17,7 +17,7 @@ namespace CoreBank
         public string FullPath { get; set; }
 
         public Excel.Workbook Base; 
-        
+
         public CoreBankWorkbook(Excel.Workbook wb)
         {
             this.Base = wb;

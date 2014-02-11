@@ -71,6 +71,13 @@ namespace CoreBank
 
         }
 
+        public virtual bool PrepareUploadTest()
+        {
+            bool blnResult = false;
+
+            return blnResult;
+        }
+
         public virtual bool CreateSet(string name)
         {
             bool blnResult = false;

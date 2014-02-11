@@ -42,11 +42,14 @@ namespace CoreBank.Client
             bool blnResult;
             blnResult = false;
 
+            Framework.Chain = null;
+            Framework.Process = null;
+
             if (UseCurrentActiveApplication())
             {
                 if (ActivateWorkbook())
                 {
-                    Template = ReadSheets();
+                    ReadSheets();
                     if (Template != TEMPLATES.UNKNOWN)
                     {
                         blnResult = true;
@@ -58,7 +61,7 @@ namespace CoreBank.Client
 
         }
 
-        private TEMPLATES ReadSheets()
+        private void ReadSheets()
         {
             bool blnWorksheet = true;
 
@@ -66,7 +69,6 @@ namespace CoreBank.Client
             Excel.Worksheet tc = null;
             Excel.Worksheet flows = null;
 
-            Template = TEMPLATES.UNKNOWN;
 
             foreach (Excel.Worksheet worksheet in Base.Worksheets)
             {
@@ -104,8 +106,6 @@ namespace CoreBank.Client
                 Template = TEMPLATES.PROCESS;
                 Framework.Process = new ProcessWorkbook(Base, flows, tc);
             }
-
-            return Template;
         }
 
 

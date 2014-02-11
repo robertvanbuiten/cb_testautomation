@@ -64,7 +64,7 @@ namespace CoreBank.IBAN
 
             BBAN = CellValue.PadLeft(10, pad);
             //strTemp = "18231611" + BBAN + "2321" + "00";
-            strTemp = Common.BIC.IDNumber + BBAN + "2321" + "00";
+            strTemp = AccountNumber.BIC.IDNumber + BBAN + "2321" + "00";
 
             BigInteger number = BigInteger.Parse(strTemp);
             BigInteger outcome = number % 97;  
@@ -80,7 +80,7 @@ namespace CoreBank.IBAN
             }
             
             //IBAN = "NL" + strControl + "INGB" + BBAN;
-            IBAN = "NL" + strControl + Common.BIC.ID + BBAN;
+            IBAN = "NL" + strControl + AccountNumber.BIC.ID + BBAN;
 
             Message = "BBAN " + BBAN + " is converted.";
 

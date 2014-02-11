@@ -7,18 +7,21 @@ using System.Text;
 using System.IO;
 using System.Data;
 using Excel=Microsoft.Office.Interop.Excel;
+using CoreBank.Common.AddIn.Forms;
 
 namespace CoreBank
 {
-    public class Framework
+    public partial class Framework
     {
         // Logging
         public static Log Log;
+        public static AddInAction AddInAction;
+        public static Status Status;
 
         // Repository objects
-        private static REPOSITORY_TYPE _type = REPOSITORY_TYPE.UNKNOWN;
-        private static QC _qc;
-        private static Network _nw;
+        public static REPOSITORY_TYPE _type = REPOSITORY_TYPE.UNKNOWN;
+        public static QC _qc;
+        public static Network _nw;
 
         //
         public static bool Connected;
@@ -35,10 +38,13 @@ namespace CoreBank
         public static ExcelTest Test;
 
         // Set current work as process workbook if tabs are found
+        public static TEMPLATES Template = TEMPLATES.UNKNOWN;
         public static ProcessWorkbook Process;
+        public static ChainWorkbook Chain;
 
         /// <summary>
-        /// 
+        /// Active Process 
+        /// Active Application
         /// </summaryActive Process from config
         public static Process ActiveProcess;
         public static Application ActiveApplication;
@@ -70,73 +76,76 @@ namespace CoreBank
         }
 
         /// <summary>
+        /// Create a new log
+        /// </summary>
+
+        public static void NewAction()
+        {
+            Framework.Log = new Log();
+        }
+
+        /// <summary>
         /// 
         /// </summary>
 
-        public static void Start(ConnectionSettings conn, Paths paths)
+        public static bool Start()
         {
+            bool blnResult = false;
             Framework.Config = new Config();
-            Framework.Log = new Log();
 
             try
             {
-                Framework.Connection = conn;
-                Framework.Paths = paths;
-                Framework.Init();
+                Framework.Connection = new ConnectionSettings();
+                Framework.Paths = new Paths();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Framework.Log.AddError("Cannot read connection / paths. Check xml.", ex.Message, ex.StackTrace);
+                return blnResult;
+            }
 
-           
+            if (Framework.Init())
+            {
+                blnResult = true;
+                Framework.Log.AddCorrect("Connection / Paths set.");
+            }
+            else
+            {
+                Framework.Log.AddIssue("Unknown repository found: " + Framework.Connection.Repository.ToString());
+            }
+
+            Framework.Ready = blnResult;
+            return blnResult;
        }
 
-        private static void Init()
+        private static bool Init()
         {
-            Framework.Ready = true;
+            bool blnResult = false;
+            Framework.Ready = false;
 
             Framework._qc = null;
             Framework._nw = null;
             Framework._type = REPOSITORY_TYPE.UNKNOWN;
             Framework.Connected = false;
 
-            if (Framework.Connection.Repository == "ALM")
-            {
-                Framework._qc = new QC(Framework.Connection);
-                Framework._type = REPOSITORY_TYPE.ALM;
-            }
-            else if (Framework.Connection.Repository == "NETWORK")
-            {
-                Framework._nw = new Network(Framework.Connection);
-                Framework._type = REPOSITORY_TYPE.NETWORK;
-            }
-            else
-            {
-                Framework.Ready = false;
-            }
+                if (Framework.Connection.Repository == "ALM")
+                {
+                    Framework._qc = new QC(Framework.Connection);
+                    Framework._type = REPOSITORY_TYPE.ALM;
+                    blnResult = true;
+                }
+                else if (Framework.Connection.Repository == "NETWORK")
+                {
+                    Framework._nw = new Network(Framework.Connection);
+                    Framework._type = REPOSITORY_TYPE.NETWORK;
+                    blnResult = true;
+                }
+
+                
+                return blnResult;
         }
 
-        /// <summary>
-        /// Start Framework.
-        /// Create connection and get resource from ALM
-        /// Read config in memory
-        /// </summary>
-
-        public static void Connect()
-        {
-            Framework.Connected = true;
-            
-            if (Framework._type == REPOSITORY_TYPE.ALM)
-            {
-                Framework.Connected = Framework._qc.Connect();
-            }
-            else if (Framework._type == REPOSITORY_TYPE.NETWORK)
-            {
-                Framework.Connected = Framework._nw.Connect();
-            }
-            else
-            {
-                Framework.Connected = false;
-            }
-        }
+      
 
         public static void Stop()
         {
@@ -190,45 +199,6 @@ namespace CoreBank
                         blnResult = true;
                     }
                 }
-            }
-
-            return blnResult;
-        }
-
-
-        public static bool UploadTemplate()
-        {
-            bool blnResult = false;
-
-            // 1. Prepare process
-            // 2. Put process
-            // 3. optional (clean process)
-
-            if (ReadProcess())
-            {
-                if (PrepareProcess())
-                {
-                    if (PutProcess())
-                    {
-                        if (CleanProcess())
-                        {
-                            blnResult = true;
-                        }
-                    }
-
-                }
-            }
-
-            return blnResult;
-        }
-
-        public static bool UploadTestCase(ExcelTest test)
-        {
-            bool blnResult = false;
-
-            if (PutTestCase(test))
-            {
-                blnResult = true;
             }
 
             return blnResult;
@@ -331,81 +301,10 @@ namespace CoreBank
             return blnResult;
         }
 
-        ///=================================================================================================================
-        /// Template files
-        ///=================================================================================================================
+       
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        /// 
-        /// <summary>
-        /// Upload process file to ALM (TestPlan)
-        /// </summary>
-        /// <returns></returns>
 
-        private static bool PrepareProcess()
-        {
-            bool blnResult = false;
 
-            // 1. Copy process to temp
-            // 2. Read / Check Proces
-
-            if (Framework.Process.CopyToTemp())
-            {
-                blnResult = true;
-            }
-
-            return blnResult;
-        }
-
-        private static bool CleanProcess()
-        {
-            bool blnResult = false;
-
-            if (Framework.Process.CloseWorkbook())
-            {
-                blnResult = true;
-            }
-
-            return blnResult;
-        }
-
-        public static bool ReadProcess()
-        {
-            bool blnResult = false;
-
-            if (Framework.Process.Check())
-            {
-                if (Framework.Process.Read())
-                {
-                    blnResult = true;
-                }
-            }
-
-            return blnResult;
-        }
-
-        public static bool PutProcess()
-        {
-            bool blnResult = false;
-
-            if (Framework._type == REPOSITORY_TYPE.ALM)
-            {
-                blnResult = Framework._qc.SaveProcess();
-            }
-            else if (Framework._type == REPOSITORY_TYPE.NETWORK)
-            {
-                blnResult = Framework._nw.SaveProcess();
-            }
-            else
-            {
-                // log
-            }
-
-            return blnResult;
-        }
 
         ///=================================================================================================================
         /// Test cases

@@ -45,12 +45,6 @@ namespace CoreBank.Client
         private Office.CommandBarButton btnClick;
         private Office.CommandBarButton btnScreen;
 
-        private Status statusform;
-        private BackgroundWorker background;
-
-        private ConnectionSettings conn;
-        private Paths paths;
-
         private bool connected;
 
         private void RemoveMenu()
@@ -115,7 +109,7 @@ namespace CoreBank.Client
             btnNLBank.Click += btnNLBank_Click;
 
             btnConnect = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
-            btnConnect.TooltipText = "Connect to " + conn.Repository;
+            btnConnect.TooltipText = "Connect to repository";
             btnConnect.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnConnect_Click);
 
             if (Framework.Connected)
@@ -140,44 +134,38 @@ namespace CoreBank.Client
             }
             else
             {
-                btnConnect.Caption = "Connect to " + conn.Repository;
+                btnConnect.Caption = "Connect to Repository";
             }
 
             ///
             btnCheck = (Office.CommandBarButton)menu.Controls.Add(1, missing, missing, missing, missing);
             btnCheck.TooltipText = "check a value of a screen object";
-            btnCheck.Caption = ACTION.CHECK.ToString();
+            btnCheck.Caption = ACTION.CHECK.ToString().ToLower();
             btnCheck.Click += button_Click;
 
             ///
             btnFill = (Office.CommandBarButton)menu.Controls.Add(1, missing, missing, missing, missing);
             btnFill.TooltipText = "fill a value in a screen object";
-            btnFill.Caption = ACTION.FILL.ToString();
+            btnFill.Caption = ACTION.FILL.ToString().ToLower();
             btnFill.Click += button_Click;
 
             ///
             btnText = (Office.CommandBarButton)menu.Controls.Add(1, missing, missing, missing, missing);
             btnText.TooltipText = "Check text on a screen";
-            btnText.Caption = ACTION.TEXT.ToString(); ;
+            btnText.Caption = ACTION.TEXT.ToString().ToLower();
             btnText.Click += button_Click;
 
             ///
             btnClick = (Office.CommandBarButton)menu.Controls.Add(1, missing, missing, missing, missing);
             btnClick.TooltipText = "Click on a screen object";
-            btnClick.Caption = ACTION.CLICK.ToString(); ;
+            btnClick.Caption = ACTION.CLICK.ToString().ToLower();
             btnClick.Click += button_Click;
-
-            ///
-            btnScreen = (Office.CommandBarButton)menu.Controls.Add(1, missing, missing, missing, missing);
-            btnScreen.TooltipText = "Screen";
-            btnScreen.Caption = "Screen";
-            btnScreen.Click += button_Click;
         }
 
         void btnNLBank_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
             Excel.Range selection = (Excel.Range)Application.Selection;
-            Common.Range = selection;
+            AccountNumber.Range = selection;
 
             frmBanks forms = new frmBanks();
             forms.Show();
@@ -185,11 +173,12 @@ namespace CoreBank.Client
 
         void btnIban_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
+     
             Excel.Range selection = (Excel.Range)Application.Selection;
-            Common.Range = selection;
+            AccountNumber.Range = selection;
 
-            Common.BIC = new BIC("INGBNL2A", "INGB", "ING BANK");
-            Common.ConvertToIBAN();    
+            AccountNumber.BIC = new BIC("INGBNL2A", "INGB", "ING BANK");
+            AccountNumber.ConvertToIBAN();    
         }
 
         void btnExport_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
@@ -197,56 +186,21 @@ namespace CoreBank.Client
 
         }
 
-        void btnManage_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-        {
-
-        }
-
-        void btnConnect_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-        {
-            Framework.Start(conn, paths);
-
-            if (Framework.Ready)
-            {
-                Framework.Connect();
-                
-                if (Framework.Connected)
-                {
-                    Framework.ReadRepository();
-                }
-            }
-
-            RemoveMenu();
-            AddMenu();
-        }
 
         void btnConfig_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
-            // show repository manager GUI
 
         }
 
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-
-        private void ShowSplashScreen()
-        {
-
-        }
 
         private void InitiateFramework()
         {
-            conn = new ConnectionSettings();
-            paths = new Paths();
-
             Framework.Factory();
+            AccountNumber.Factory();
         }
 
         void button_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
-        {
+        {   
             try
             {
                 if (Ctrl.Caption.ToString() == ACTION.CHECK.ToString())
@@ -278,17 +232,11 @@ namespace CoreBank.Client
             // add right mouse button
             // add ribbon
 
-            this.background = new BackgroundWorker();
-            this.background.WorkerReportsProgress = true;
-            this.background.WorkerSupportsCancellation = true;
-            this.background.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
-            this.background.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
-            this.background.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-
-            ShowSplashScreen();
             InitiateFramework();
             AddMenu();
         }
+
+    
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
