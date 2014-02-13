@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2A5FC8C9-9CAC-4A07-AEC2-21ECFE69141F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreBank</RootNamespace>
+    <AssemblyName>BasicBlocks</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\..\build\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="OTAClientLib">
+      <HintPath>..\..\..\..\Program Files (x86)\HP\QuickTest Add-in For ALM-QC\bin\OTAClientLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Action\Action.cs" />
+    <Compile Include="Common\AddIn\AddInAction.cs" />
+    <Compile Include="Common\AddIn\Connect.cs" />
+    <Compile Include="Common\AddIn\Forms\Status.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\AddIn\Forms\Status.Designer.cs">
+      <DependentUpon>Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\AddIn\Process\UploadProcessTemplate.cs" />
+    <Compile Include="Common\AddIn\Process\UploadTestCases.cs" />
+    <Compile Include="Common\AddIn\Process\UploadProcess.cs" />
+    <Compile Include="Common\ConnectionSettings.cs" />
+    <Compile Include="Common\Paths.cs" />
+    <Compile Include="Compile\Compile.cs" />
+    <Compile Include="Config\Application.cs" />
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\GUI.cs" />
+    <Compile Include="Config\Process.cs" />
+    <Compile Include="Config\Processes.cs" />
+    <Compile Include="Common\Framework.cs" />
+    <Compile Include="Global.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Global.Settings</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\LogLine.cs" />
+    <Compile Include="IBAN\BIC.cs" />
+    <Compile Include="IBAN\Convert.cs" />
+    <Compile Include="NativeWin\Native32.cs" />
+    <Compile Include="NativeWin\ScreenPrint.cs" />
+    <Compile Include="NativeWin\WindowsKeys.cs" />
+    <Compile Include="NativeWin\WindowsMessages.cs" />
+    <Compile Include="Objects.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Config\Objects.cs" />
+    <Compile Include="Config\Settings.cs" />
+    <Compile Include="Repository\QC.cs" />
+    <Compile Include="Repository\Network.cs" />
+    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Result\ActionStatistics.cs" />
+    <Compile Include="Result\LogStatistics.cs" />
+    <Compile Include="Result\Result.cs" />
+    <Compile Include="Result\TimeStatistics.cs" />
+    <Compile Include="Test\Test.cs" />
+    <Compile Include="Workbook\ChainWorkbook.cs" />
+    <Compile Include="Workbook\Sheets\Flows.cs" />
+    <Compile Include="Workbook\ProcessWorkbook.cs" />
+    <Compile Include="Workbook\Sheets\Sheet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="IBAN\BIC.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="QC\Lib\OTAClient.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Global.Settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Global.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Action\Custom\" />
+    <Folder Include="Action\File\" />
+    <Folder Include="Action\Screen\" />
+    <Folder Include="Common\AddIn\Chain\" />
+    <Folder Include="Common\AddIn\Dashboard\" />
+    <Folder Include="QC\Objects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="TDAPIOLELib">
+      <Guid>{F645BD06-E1B4-4E6A-82FB-E97D027FD456}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\AddIn\Forms\Status.resx">
+      <DependentUpon>Status.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
