@@ -24,6 +24,8 @@ namespace CoreBank.Client
         private Office.CommandBarPopup menu_config;
         private Office.CommandBarPopup menu_alm;
         private Office.CommandBarPopup menu_iban;
+        private Office.CommandBarPopup menu_process;
+        private Office.CommandBarPopup menu_chain;
 
         // Buttons
         private Office.CommandBarButton btnIban;
@@ -38,6 +40,9 @@ namespace CoreBank.Client
         private Office.CommandBarButton btnUpload;
         private Office.CommandBarButton btnManage;
         private Office.CommandBarButton btnUploadProcess;
+
+        private Office.CommandBarButton btnChainRead;
+        private Office.CommandBarButton btnChainUpload;
 
         private Office.CommandBarButton btnCheck;
         private Office.CommandBarButton btnFill;
@@ -95,48 +100,63 @@ namespace CoreBank.Client
             menu_alm = (Office.CommandBarPopup)menu.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
             menu_alm.Caption = "Repository";
 
+            btnConnect = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
+            btnConnect.TooltipText = "Connect";
+            btnConnect.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnConnect_Click);
+
+            menu_process = (Office.CommandBarPopup)menu_alm.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
+            menu_process.Caption = "Process";
+
+            menu_chain = (Office.CommandBarPopup)menu_alm.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
+            menu_chain.Caption = "Chain";
+
             menu_iban = (Office.CommandBarPopup)menu.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
             menu_iban.Caption = "IBAN";
 
             btnIban = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
-            btnIban.TooltipText = "Convert to ING IBAN";
+            btnIban.TooltipText = "Convert ING";
             btnIban.Caption = lblIban;
             btnIban.Click += btnIban_Click;
 
             btnNLBank = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
-            btnNLBank.TooltipText = "Convert to IBAN other NL Bank";
+            btnNLBank.TooltipText = "Convert other NL Bank";
             btnNLBank.Caption = lblBanks;
             btnNLBank.Click += btnNLBank_Click;
 
-            btnConnect = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
-            btnConnect.TooltipText = "Connect to repository";
-            btnConnect.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnConnect_Click);
+            
 
             if (Framework.Connected)
             {
                 btnConnect.Caption = "Disconnect";
-
-                btnUploadProcess = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
-                btnUploadProcess.TooltipText = "Upload Workbook";
-                btnUploadProcess.Caption = "Upload Workbook";
-                btnUploadProcess.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnUploadProcess_Click);
-
-                btnUpload = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
-                btnUpload.TooltipText = "Upload Testcases";
-                btnUpload.Caption = "Upload Testcase";
-                btnUpload.Click += btnUpload_Click;
-
-                btnUploadConfig = (Office.CommandBarButton)menu_alm.Controls.Add(1, missing, missing, missing, missing);
-                btnUploadConfig.TooltipText = "Repository Manager";
-                btnUploadConfig.Caption = "Repository Manager";
-                btnUploadConfig.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnConfig_Click);
-            
             }
             else
             {
                 btnConnect.Caption = "Connect to Repository";
             }
 
+                btnUploadProcess = (Office.CommandBarButton)menu_process.Controls.Add(1, missing, missing, missing, missing);
+                btnUploadProcess.TooltipText = "Upload Workbook";
+                btnUploadProcess.Caption = "Upload Workbook";
+                btnUploadProcess.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnUploadProcess_Click);
+
+                btnUpload = (Office.CommandBarButton)menu_process.Controls.Add(1, missing, missing, missing, missing);
+                btnUpload.TooltipText = "Upload Testcases";
+                btnUpload.Caption = "Upload Testcase";
+                btnUpload.Click += btnUpload_Click;
+
+                btnChainRead = (Office.CommandBarButton)menu_chain.Controls.Add(1, missing, missing, missing, missing);
+                btnChainRead.Caption = "Read Basicflows / testcases";
+                btnChainRead.Click += btnChainRead_Click;
+
+                btnChainUpload = (Office.CommandBarButton)menu_chain.Controls.Add(1, missing, missing, missing, missing);
+                btnChainUpload.Caption = "Upload test set";
+                btnChainUpload.Click += btnChainUpload_Click;
+
+                btnUploadConfig = (Office.CommandBarButton)menu.Controls.Add(1, missing, missing, missing, missing);
+                btnUploadConfig.TooltipText = "Repository Manager";
+                btnUploadConfig.Caption = "Repository Manager";
+                btnUploadConfig.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnConfig_Click);
+            
             ///
             btnCheck = (Office.CommandBarButton)menu.Controls.Add(1, missing, missing, missing, missing);
             btnCheck.TooltipText = "check a value of a screen object";
@@ -160,6 +180,16 @@ namespace CoreBank.Client
             btnClick.TooltipText = "Click on a screen object";
             btnClick.Caption = ACTION.CLICK.ToString().ToLower();
             btnClick.Click += button_Click;
+        }
+
+        void btnChainUpload_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            throw new NotImplementedException();
+        }
+
+        void btnChainRead_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            throw new NotImplementedException();
         }
 
         void btnNLBank_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)

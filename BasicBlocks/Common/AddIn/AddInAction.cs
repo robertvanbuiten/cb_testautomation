@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using CoreBank.Common.AddIn.Forms;
+
 namespace CoreBank
 {
     public class AddInAction
@@ -29,23 +31,32 @@ namespace CoreBank
         {
             Result = false;
             Framework.Log = new Log();
+            Framework.Status = new Status();
         }
 
         public void DoWork()
         {
             Framework.Status.Start();
 
-            if (Prepare())
+            if (Framework.Connected)
             {
-                if (Execute())
+
+                if (Prepare())
+                {
+                    if (Execute())
+                    {
+                        this.Result = true;
+                    }
+                }
+
+                if (Finish())
                 {
                     this.Result = true;
                 }
             }
-
-            if (Finish())
+            else
             {
-                this.Result = true;
+                Framework.Log.AddError("Not connected with repository. Cannot execute function.", "", "");
             }
 
             Stop();
