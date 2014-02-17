@@ -14,16 +14,45 @@ namespace CoreBank
             : base(template)
         {
             this.Action = ADDIN_ACTION.PROCESS_UPLOADTESTCASE;
-            this.Progress = new ProgressPercentage("Prepare upload", 4);
+            this.Progress = new ProgressPercentage("Prepare upload", 10);
             this.Title = "Upload test cases";
+            this.Progress.Message = "Prepare uploading test cases";
+        }
+
+        protected override bool Prepare()
+        {
+            bool blnResult = false;
+
+            if (Template == TEMPLATES.PROCESS)
+            {
+                if (ReadProcess())
+                {
+                    if (PrepareProcess())
+                    {
+                        if (ReadRepository())
+                        {
+                            blnResult = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Framework.Log.AddError("Current workbook is not an process template.", "", "");
+            }
+
+            return blnResult;
         }
 
         protected override bool Execute()
         {
             bool blnResult = true;
 
-            this.Progress = new ProgressPercentage("Upload", Framework.Process.TestCases.Count);
-
+            this.Progress = new ProgressPercentage("Upload", Framework.Process.TestCases.Count + 1);
+            this.Title = "Uploading " + Framework.Process.TestCases.Count + " test cases";
+            this.Progress.Message = "Uploading test cases";
+            this.Progress.Continue();
+            
             foreach (ExcelTest test in Framework.Process.TestCases)
             {
                 if (Framework.PutTestCase(test))
@@ -32,12 +61,18 @@ namespace CoreBank
                 }
                 else
                 {
+                    blnResult = false;
                     break;
                 }
-
+                this.Progress.Message = "Uploading test cases " + this.Progress.Index.ToString() + " / " + this.Progress.iTotal.ToString();
                 this.Progress.Continue();
             }
            
+            if (blnResult)
+            {
+                Framework.Log.AddCorrect("Uploaded " + Framework.Process.TestCases.Count + " test cases.");
+            }
+
             return blnResult;
         }
 
@@ -45,9 +80,16 @@ namespace CoreBank
         {
             bool blnResult = false;
 
-            if (Framework.Process.CloseWorkbook())
+            this.Progress.Message = "Uploading process " + Framework.Process.Name + " to resource.";
+
+            if (UploadProcessToResource())
             {
-                blnResult = true;
+                this.Progress.Continue();
+
+                if (Framework.Process.CloseWorkbook())
+                {
+                    blnResult = true;
+                }
             }
 
             return blnResult;

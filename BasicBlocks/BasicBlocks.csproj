@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\..\..\build\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\test\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,10 +41,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="OTAClientLib">
-      <HintPath>..\..\..\..\Program Files (x86)\HP\QuickTest Add-in For ALM-QC\bin\OTAClientLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -112,9 +108,7 @@
     <Compile Include="Workbook\Sheets\Sheet.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="IBAN\BIC.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <EmbeddedResource Include="IBAN\BIC.txt" />
     <Content Include="QC\Lib\OTAClient.dll" />
   </ItemGroup>
   <ItemGroup>

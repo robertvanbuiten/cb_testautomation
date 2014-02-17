@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 
 using CoreBank.Common.AddIn.Forms;
 
@@ -36,11 +37,8 @@ namespace CoreBank
 
         public void DoWork()
         {
-            Framework.Status.Start();
-
-            if (Framework.Connected)
+            if (Framework.Ready)
             {
-
                 if (Prepare())
                 {
                     if (Execute())
@@ -64,19 +62,7 @@ namespace CoreBank
 
         private void Stop()
         {
-            LogLine line = Framework.Log.Lines.Last<LogLine>();
-
-            if (line is ErrorLine)
-            {
-                ErrorLine err = line as ErrorLine;
-                //Form.CreateErrorMessage(err);
-            }
-            else if (line is CorrectLine)
-            {
-                CorrectLine correct = line as CorrectLine;
-                //Form.CreateCorrectMessage(correct);
-            }
-
+           
         }
 
         protected virtual bool Prepare()
@@ -102,17 +88,20 @@ namespace CoreBank
         public string Action;
         public string Message;
 
-        public int Total;
-        public int Current;
+        public int iTotal;
+        public decimal Total;
+        public decimal Current;
         public int Index;
-        private int percentage;
+        private decimal percentage;
         
-        public ProgressPercentage(string action, int total)
+        public ProgressPercentage(string action, decimal total)
         {
             Action = action;
             Total = total;
             Message = "";
-            percentage = 100 / total;
+            percentage = (decimal)100 / total;
+            iTotal = (int)Math.Round(total);
+            Index = 0;
             Current = 0;
         }
 
@@ -120,7 +109,8 @@ namespace CoreBank
         {
             Index++;
             Current = Current + percentage;
-            Message = Current.ToString() + "%";  
+            int status = (int)Math.Round(Current);
+            Framework.Status.bw.ReportProgress(status);
         }
 
     }

@@ -12,33 +12,15 @@ namespace CoreBank
        
         public UploadProcessTemplate(TEMPLATES template):base(template)
         {
-          
+            
         }
-
-        protected override bool Prepare()
-        {
-            bool blnResult = false;
-
-            if (Template == TEMPLATES.PROCESS)
-            {
-                if (ReadProcess())
-                {
-                    if (PrepareProcess())
-                    {
-                        blnResult = true;
-                    }
-                }
-            }
-
-            return blnResult;
-        }
-
+               
         /// <summary>
         /// Low-level actions
         /// </summary>
         /// <returns></returns>
 
-        private bool PrepareProcess()
+        protected bool PrepareProcess()
         {
             bool blnResult = false;
 
@@ -50,11 +32,15 @@ namespace CoreBank
             {
                 blnResult = true;
             }
+            else
+            {
+                Framework.Log.AddError("Cannot copy workbook to process file.", "", "");
+            }
 
             return blnResult;
         }
 
-        private bool ReadProcess()
+        protected bool ReadProcess()
         {
             bool blnResult = false;
 
@@ -73,8 +59,47 @@ namespace CoreBank
                     blnResult = true;
                 }
             }
+            else
+            {
+
+            }
 
             return blnResult;
         }
+
+        protected bool ReadRepository()
+        {
+
+            bool blnResult = false;
+
+            if (Framework._type == REPOSITORY_TYPE.ALM)
+            {
+                blnResult = Framework._qc.PrepareUpload();
+            }
+            else if (Framework._type == REPOSITORY_TYPE.NETWORK)
+            {
+                blnResult = false;
+            }
+
+            return blnResult;
+
+        }
+
+        protected bool UploadProcessToResource()
+        {
+            bool blnResult = false;
+
+            if (Framework._type == REPOSITORY_TYPE.ALM)
+            {
+                blnResult = Framework._qc.SaveProcess();
+            }
+            else if (Framework._type == REPOSITORY_TYPE.NETWORK)
+            {
+                blnResult = Framework._nw.SaveProcess();
+            }
+
+            return blnResult;
+        }
+
     }
 }

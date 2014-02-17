@@ -10,31 +10,23 @@ namespace CoreBank
     {
         public AddInConnect(): base()
         {
-            this.Progress = new ProgressPercentage("Connecting", 1);
+            this.Progress = new ProgressPercentage("Connecting", 2);
             this.Title = "Connecting with " + Framework.Connection.Repository.ToString();
             this.Action = ADDIN_ACTION.CONNECT;
-            //test
-            //
-            ///
-
+            this.Progress.Message = "Connecting";
         }
 
 
         protected override bool Prepare()
         {
-            bool blnResult = false;
-
-            if (Framework.Start())
-            {
-                blnResult = true;   
-            }
-
-            return blnResult;
+            return true;
         }
 
         protected override bool Execute()
         {
             Framework.Connected = false;
+
+            Framework.AddInAction.Progress.Continue();
 
             if (Framework._type == REPOSITORY_TYPE.ALM)
             {
@@ -45,6 +37,8 @@ namespace CoreBank
                 Framework.Connected = Framework._nw.Connect();
             }
 
+            Framework.AddInAction.Progress.Continue();
+
             return Framework.Connected;
         }
 
@@ -54,6 +48,7 @@ namespace CoreBank
 
             if (Framework.ReadRepository())
             {
+                Framework.Log.AddCorrect("Read config.xml.");
                 blnResult = true;
             }
 

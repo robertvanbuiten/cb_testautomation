@@ -42,10 +42,16 @@ namespace CoreBank.Client
 
         void btnConnect_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
         {
-            Framework.AddInAction = new AddInConnect();
-            AddInConnect connect = Framework.AddInAction as AddInConnect;
-
-            Framework.Status.Start();
+            if (btnConnect.Caption == "Connect")
+            {
+                Framework.AddInAction = new AddInConnect();
+                AddInConnect connect = Framework.AddInAction as AddInConnect;
+                Framework.Status.Start();
+            }
+            else
+            {
+                InitiateFramework();
+            }
 
             // Refresh menu.
             RemoveMenu();

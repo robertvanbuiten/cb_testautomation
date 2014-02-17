@@ -169,15 +169,11 @@ namespace CoreBank
                 Framework.ActiveProcess = processes[0];
                 blnResult = true;
             }
-            else if (processes.Count == 0)
-            {
-                System.Windows.Forms.MessageBox.Show("Cannot find process " + Framework.Process.Name + " check ALM and config.xml in Test Resources.");
-            }
             else
             {
-                System.Windows.Forms.MessageBox.Show("Found multiple processes " + Framework.Process.Name + " check ALM and config.xml in Test Resources.");
+                Framework.Log.AddError("Cannot find process " + Framework.Process.Name + " check config.xml.","","");
             }
-
+           
             return blnResult;
         }
 
@@ -197,15 +193,11 @@ namespace CoreBank
                 Framework.ActiveApplication = apps[0];
                 blnResult = true;
             }
-            else if (apps.Count == 0)
+            else 
             {
-                System.Windows.Forms.MessageBox.Show("Cannot find application " + Framework.ActiveProcess.Application + " check ALM and config.xml in Test Resources.");
+                Framework.Log.AddError("Cannot find application " + Framework.ActiveProcess.Application + " check config.xml","","");
             }
-            else
-            {
-                System.Windows.Forms.MessageBox.Show("Found multiple processes " + Framework.ActiveProcess.Application + " check ALM and config.xml in Test Resources.");
-            }
-
+           
             return blnResult;
         }  
 
@@ -224,6 +216,14 @@ namespace CoreBank
                {
                    blnResult = true;
                }
+               else
+               {
+                   Framework.Log.AddError("Error reading basic flows.", "", "");
+               }
+           }
+           else
+           {
+               Framework.Log.AddError("Error reading test cases.", "", "");
            }
 
            return blnResult;
@@ -250,6 +250,7 @@ namespace CoreBank
                     exceltest.ExpectedResult = shtTestcases.Values[row, PROCESS_COLUMNS.ExpectedResult];
                     exceltest.ResourceID = shtTestcases.Values[row, PROCESS_COLUMNS.RepositoryID];
                     exceltest.Flow = DetermineBasicFlow(shtTestcases.Values[row, PROCESS_COLUMNS.Flow]);
+                    exceltest.Name = Framework.ActiveProcess.Name + "." + exceltest.ID + "." + exceltest.Description;
 
                     for (long col = PROCESS_COLUMNS.Data; col <= shtTestcases.ColMax; col++)
                     {
@@ -287,15 +288,7 @@ namespace CoreBank
             }
             catch { }
 
-            if (flows.Count == 0)
-            {
-
-            }
-            else if (flows.Count > 1)
-            {
-                
-            }
-            else
+            if (flows.Count >= 1)
             {
                 Flow = flows[0];
             }

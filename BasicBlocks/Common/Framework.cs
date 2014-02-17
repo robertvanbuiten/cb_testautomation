@@ -92,6 +92,7 @@ namespace CoreBank
         {
             bool blnResult = false;
             Framework.Config = new Config();
+            Framework.Log = new Log();
 
             try
             {
@@ -107,7 +108,6 @@ namespace CoreBank
             if (Framework.Init())
             {
                 blnResult = true;
-                Framework.Log.AddCorrect("Connection / Paths set.");
             }
             else
             {
@@ -269,7 +269,7 @@ namespace CoreBank
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("error reading config" + ex.Message + "\n" + ex.InnerException + "\n" + ex.StackTrace + "\n" + ex.Source + "\n");
+                Framework.Log.AddError("error reading config",ex.Message, ex.StackTrace);
             }
 
             return blnResult;

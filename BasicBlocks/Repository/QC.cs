@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OTAClientLib;
+using TDAPIOLELib;
 
 namespace CoreBank
 {
@@ -85,6 +85,7 @@ namespace CoreBank
 
             if (DownloadResource(Framework.ActiveProcess.Name))
             {
+                Framework.Log.AddCorrect("Downloaded Process '" + Framework.ActiveProcess.Name + "'.");
                 blnResult = true;
             }
 
@@ -97,6 +98,7 @@ namespace CoreBank
 
             if (UploadResource(Framework.Process.Base.FullName, Framework.ActiveProcess.Name))
             {
+                Framework.Log.AddCorrect("Saved Process '" + Framework.ActiveProcess.Name + "'.");
                 blnResult = true;
             }
 
@@ -109,6 +111,7 @@ namespace CoreBank
 
             if (DownloadResource("Config"))
             {
+                Framework.Log.AddCorrect("Downloaded config.xml.");
                 blnResult = true;
             }
             
@@ -121,6 +124,7 @@ namespace CoreBank
 
             if (UploadTestCase(source))
             {
+                Framework.Log.AddCorrect("Saved test '" + source.Name + "'.");
                 blnResult = true;
             }
 
@@ -154,7 +158,10 @@ namespace CoreBank
 
                 list = (List)factory.NewList(filter.Text);
             }
-            catch {}
+            catch (Exception ex)
+            {
+                Framework.Log.AddError("Error finding resource " + name, ex.Message, ex.StackTrace);
+            }
 
             if (list != null)
             {
@@ -166,11 +173,11 @@ namespace CoreBank
                 }
                 else if (list.Count == 0)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot find resource with name '" + name + "' in ALM Test Resources.");
+                    Framework.Log.AddError("Cannot find resource with name '" + name + "' in ALM Test Resources.","","");
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Found multiple test resources with name " + name + " in ALM.");
+                    Framework.Log.AddError("Found multiple test resources with name " + name + " in ALM.","","");
                 }
             }
               
@@ -200,7 +207,7 @@ namespace CoreBank
                 catch (Exception ex)
                 {
                     blnResult = false;
-                    System.Windows.Forms.MessageBox.Show("Could not download Test Resource " + name + " from ALM to " + Framework.Paths.TempPath + " \n" + ex.Message );
+                    Framework.Log.AddError("Could not download Test Resource " + name + " from ALM to " + Framework.Paths.TempPath + " \n", ex.Message, "");
                 }
             }
                         
@@ -226,12 +233,12 @@ namespace CoreBank
                 catch (Exception ex)
                 {
                     blnResult = false;
-                    System.Windows.Forms.MessageBox.Show("Could not upload " + filename + " to ALM Test Resource " + resourcename + " \n" + ex.Message);
+                    Framework.Log.AddError("Could not upload " + filename + " to ALM Test Resource " + resourcename + " \n",ex.Message,"");
                 }
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("Could not upload " + filename + " to ALM Test Resource " + resourcename);
+                Framework.Log.AddError("Could not upload " + filename + " to ALM Test Resource " + resourcename,"","");
             }
 
             return blnResult;
@@ -283,17 +290,20 @@ namespace CoreBank
         {
             bool blnResult = false;
             
-            if (ResetProcess())
-            {
-                if (SetStatusExistingTest())
+            if (ReadProject())
+            {   
+                if (ResetProcess())
                 {
-                    if (PrepareTestSet())
+                    if (SetStatusExistingTest())
                     {
-                        if (CreateTestSetFolder())
+                        if (PrepareTestSet())
                         {
-                            if (ClearTestSetFolder())
+                            if (CreateTestSetFolder())
                             {
-                                blnResult = true;
+                                if (ClearTestSetFolder())
+                                {
+                                    blnResult = true;
+                                }
                             }
                         }
                     }
@@ -323,7 +333,7 @@ namespace CoreBank
                 }
                 catch (Exception ex)
                 {
-                    Message = "Could not set Process Factory '" + Framework.ActiveProcess.QCTestPlan + "' in ALM.\n" + ex.Message;
+                    Framework.Log.AddError("Could not set Process Factory '" + Framework.ActiveProcess.QCTestPlan + "' in ALM.\n", ex.Message,"");
                 }
 
                 if (ProcessFactory != null)
@@ -337,7 +347,7 @@ namespace CoreBank
             }
             else
             {
-                Message = "Cannot find Process folder '" + Framework.ActiveProcess.QCTestPlan + "' in ALM Testplan'";
+                Framework.Log.AddError("Cannot find Process folder '" + Framework.ActiveProcess.QCTestPlan + "' in ALM Testplan'", "", "");
             }
                                
             return blnResult;
@@ -358,7 +368,10 @@ namespace CoreBank
                         {
                             test["TS_STATUS"] = "4 - Repair";
                         }
-                        catch {}
+                        catch (Exception ex)
+                        {
+                            Framework.Log.AddError("Test case '" + test.Name + "' is locked.", ex.Message, "");
+                        }
                     }
                     else
                     {
@@ -366,7 +379,7 @@ namespace CoreBank
                         if (!test.IsLocked)
                         {
                             blnResult = false;
-                            Message = "Test case '" + test.Name + "' is locked.";
+                            Framework.Log.AddError("Test case '" + test.Name + "' is locked.","","");
                             break;
                         }
                     }
@@ -544,17 +557,17 @@ namespace CoreBank
                     }
                     else
                     {
-                        Message = "Cannnot find Process_Template in '" + Framework.ActiveProcess.QCTestPlan + "' in ALM Testplan.";
+                        Framework.Log.AddError("Cannnot find Process_Template in '" + Framework.ActiveProcess.QCTestPlan + "' in ALM Testplan.", "", "");
                     }
                 }
                 else
                 {
-                    Message = "Cannot determine project factory '" + Framework.ActiveProcess.QCTestPlan + "'.";
+                    Framework.Log.AddError("Cannot determine project factory '" + Framework.ActiveProcess.QCTestPlan + "'.", "", "");
                 }
             }
             else
             {
-                Message = "Cannot find Project folder '" + Framework.ActiveProcess.QCTestPlan + "' in ALM Testplan.'";
+                Framework.Log.AddError("Cannot find Project folder '" + Framework.ActiveProcess.QCTestPlan + "' in ALM Testplan.'", "", "");
             }
 
 
@@ -586,7 +599,7 @@ namespace CoreBank
             }
             catch (Exception ex)
             {
-                Message = "Could not paste Process_template from " + Framework.ActiveApplication.QCTestPlan + " to " + Framework.ActiveProcess.QCTestPlan + " in ALM.";
+                Framework.Log.AddError("Could not paste Process_template from " + Framework.ActiveApplication.QCTestPlan + " to " + Framework.ActiveProcess.QCTestPlan + " in ALM.", ex.Message, "");
             }
 
             return blnResult;
@@ -655,7 +668,7 @@ namespace CoreBank
                 }
                 catch (Exception ex)
                 {
-                    Message = "Could not change properties of test" + ActiveTest.Name + "\n" + ex.Message;
+                    Framework.Log.AddError("Could not change properties of test" + ActiveTest.Name + "\n", ex.Message, "");
                 }
             }
 
@@ -719,7 +732,7 @@ namespace CoreBank
             }
             catch (Exception ex)
             {
-                Message = "Cannot find folder " + foldername + "\n" + ex.Message;
+                Framework.Log.AddError("Cannot find folder " + foldername + "\n", ex.Message, "");
             }
 
             return node;

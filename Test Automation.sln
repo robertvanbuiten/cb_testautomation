@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicBlocks", "BasicBlocks\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test Client UnitTests", "Test Client UnitTests\Test Client UnitTests.csproj", "{5E272CE8-7078-4047-9254-DB7374EED1BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{0AD6DAF7-9B72-44AB-B334-D3BE9CA321EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test Automation Client", "Client\Test Automation Client.csproj", "{0AD6DAF7-9B72-44AB-B334-D3BE9CA321EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

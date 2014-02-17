@@ -14,6 +14,25 @@ namespace CoreBank
            this.Action = ADDIN_ACTION.PROCESS_UPLOADTEMPLATE;
            this.Progress = new ProgressPercentage("Uploading Template", 4);
            this.Title = "Upload process template";
+           this.Progress.Message = "Uploading";
+        }
+
+        protected override bool Prepare()
+        {
+            bool blnResult = false;
+
+            if (Template == TEMPLATES.PROCESS)
+            {
+                if (ReadProcess())
+                {
+                    if (PrepareProcess())
+                    {
+                        blnResult = true;
+                    }
+                }
+            }
+
+            return blnResult;
         }
 
         protected override bool Execute()
@@ -22,19 +41,8 @@ namespace CoreBank
             this.Progress.Continue();
             
             // comment
-            
-            if (Framework._type == REPOSITORY_TYPE.ALM)
-            {
-                blnResult = Framework._qc.SaveProcess();
-            }
-            else if (Framework._type == REPOSITORY_TYPE.NETWORK)
-            {
-                blnResult = Framework._nw.SaveProcess();
-            }
-            else
-            {
-                // log
-            }
+
+            blnResult = UploadProcessToResource();
 
             return blnResult;
         }

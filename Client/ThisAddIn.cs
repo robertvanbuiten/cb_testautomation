@@ -110,18 +110,18 @@ namespace CoreBank.Client
             menu_chain = (Office.CommandBarPopup)menu_alm.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
             menu_chain.Caption = "Chain";
 
-            menu_iban = (Office.CommandBarPopup)menu.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
-            menu_iban.Caption = "IBAN";
+            //menu_iban = (Office.CommandBarPopup)menu.Controls.Add(Office.MsoControlType.msoControlPopup, missing, missing, missing, missing);
+            //menu_iban.Caption = "IBAN";
 
-            btnIban = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
-            btnIban.TooltipText = "Convert ING";
-            btnIban.Caption = lblIban;
-            btnIban.Click += btnIban_Click;
+            //btnIban = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
+            //btnIban.TooltipText = "Convert ING";
+            //btnIban.Caption = lblIban;
+            //btnIban.Click += btnIban_Click;
 
-            btnNLBank = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
-            btnNLBank.TooltipText = "Convert other NL Bank";
-            btnNLBank.Caption = lblBanks;
-            btnNLBank.Click += btnNLBank_Click;
+           // btnNLBank = (Office.CommandBarButton)menu_iban.Controls.Add(1, missing, missing, missing, missing);
+            //btnNLBank.TooltipText = "Convert other NL Bank";
+           // btnNLBank.Caption = lblBanks;
+            //btnNLBank.Click += btnNLBank_Click;
 
             
 
@@ -131,13 +131,13 @@ namespace CoreBank.Client
             }
             else
             {
-                btnConnect.Caption = "Connect to Repository";
+                btnConnect.Caption = "Connect";
             }
 
-                btnUploadProcess = (Office.CommandBarButton)menu_process.Controls.Add(1, missing, missing, missing, missing);
-                btnUploadProcess.TooltipText = "Upload Workbook";
-                btnUploadProcess.Caption = "Upload Workbook";
-                btnUploadProcess.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnUploadProcess_Click);
+                //btnUploadProcess = (Office.CommandBarButton)menu_process.Controls.Add(1, missing, missing, missing, missing);
+                //btnUploadProcess.TooltipText = "Upload Workbook";
+                //btnUploadProcess.Caption = "Upload Workbook";
+                //btnUploadProcess.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnUploadProcess_Click);
 
                 btnUpload = (Office.CommandBarButton)menu_process.Controls.Add(1, missing, missing, missing, missing);
                 btnUpload.TooltipText = "Upload Testcases";
@@ -226,6 +226,7 @@ namespace CoreBank.Client
         private void InitiateFramework()
         {
             Framework.Factory();
+            Framework.Start();
             AccountNumber.Factory();
         }
 

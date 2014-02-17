@@ -35,7 +35,6 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.bw = new System.ComponentModel.BackgroundWorker();
             this.pb = new System.Windows.Forms.ProgressBar();
-            this.btnOK = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -60,6 +59,7 @@
             this.tbShortMessage.Name = "tbShortMessage";
             this.tbShortMessage.Size = new System.Drawing.Size(384, 20);
             this.tbShortMessage.TabIndex = 3;
+            this.tbShortMessage.TextChanged += new System.EventHandler(this.tbShortMessage_TextChanged);
             // 
             // tbResult
             // 
@@ -80,6 +80,8 @@
             // 
             // bw
             // 
+            this.bw.WorkerReportsProgress = true;
+            this.bw.WorkerSupportsCancellation = true;
             this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bw_DoWork);
             this.bw.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bw_ProgressChanged);
             this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bw_RunWorkerCompleted);
@@ -92,23 +94,12 @@
             this.pb.Size = new System.Drawing.Size(465, 10);
             this.pb.TabIndex = 6;
             // 
-            // btnOK
-            // 
-            this.btnOK.Location = new System.Drawing.Point(336, 211);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 7;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
             // Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(509, 251);
-            this.Controls.Add(this.btnOK);
             this.Controls.Add(this.pb);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.tbResult);
@@ -133,6 +124,5 @@
         private System.Windows.Forms.Button btnCancel;
         public System.ComponentModel.BackgroundWorker bw;
         public System.Windows.Forms.ProgressBar pb;
-        private System.Windows.Forms.Button btnOK;
     }
 }
